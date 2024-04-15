@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>加法器</title>
+		<script>
+		async function postData(url = "", data = {}) {
+		  const response = await fetch(url, {
+		    method: "POST",
+		    headers: {
+		      "Content-Type": "application/json",
+		    },
+		    body: JSON.stringify(data)
+		  });
+		  return response.json();
+		}
+		function add(){
+			postData("./add", { a:document.getElementById("a").value, b:document.getElementById("b").value}).then((data) => {
+		    document.getElementById("res").value = data.res;
+	    });
+		}
+		</script>
+	</head>
+	<body>
+	  <div>
+	  <input id="a" type="text" name="a">+
+	  <input id="b" type="text" name="b">
+		<input type="submit" value="=" onclick = "add()">
+		<input id="res" type="text">
+		</div>
+	</body>
+</html>

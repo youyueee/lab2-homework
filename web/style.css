@@ -1,0 +1,80 @@
+body {
+  font-size: 100%;
+  font-family: 微软雅黑;
+}
+.main{
+  margin-right: 10px;
+}
+.msgeditor{
+  width:98%;
+  height:150px;
+  position:relative;
+  margin-bottom: 30px;
+}
+textarea#content {
+  width: 100%;
+  height: 150px;
+  border: 3px solid #cccccc;
+  background-position: bottom right;
+  background-repeat: no-repeat;
+}
+.publish{
+  position:absolute;
+  right : 0px;
+  bottom : 0px;
+  width : 80px;
+  height : 40px;
+}
+.publish:hover{
+  background: #3CB371;
+}
+/* Chat containers */
+.container {
+  width : 98%;
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+/* Darker chat container */
+.darker {
+  border-color: #ccc;
+  background-color: #ddd;
+}
+
+/* Clear floats */
+.container::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Style images */
+.container a {
+  float: left;
+  max-width: 60px;
+  width: 100%;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+/* Style the right image */
+.container a.right {
+  float: right;
+  margin-left: 20px;
+  margin-right:0;
+}
+
+/* Style time text */
+.time-right {
+  float: right;
+  color: #aaa;
+}
+
+/* Style time text */
+.time-left {
+  float: left;
+  color: #999;
+}

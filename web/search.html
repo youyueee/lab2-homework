@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>搜索结果</title>
+    <link rel="stylesheet" href="./style.css">
+    <script type="text/javascript" src="./utils.js"></script>
+    <script type="text/javascript">
+
+        function search(keyword) {
+            postData("./search", { keyword: keyword })
+                .then((data) => {
+                    displaySearchResults(data); // 处理服务器响应，更新页面内容
+                })
+                .catch((error) => {
+                    console.error('搜索请求失败', error);
+                });
+        }
+
+        // 处理搜索结果，更新页面内容
+        function displaySearchResults(data) {
+            var msglist = document.getElementById('msgresultlist');
+            msglist.innerHTML = "";
+            for (var i in data) {
+                var div = document.createElement("div");
+                var name = document.createElement("a");
+                var time = document.createElement("span");
+                if (i % 2 == 0) {
+                    div.className = "container";
+                    name.className = "right";
+                    time.className = "time-left";
+                } else {
+                    div.className = "container darker";
+                    time.className = "time-right";
+                }
+                var para = document.createElement("p");
+                para.innerText = data[i].content;
+                name.innerHTML = data[i].name;
+                time.innerHTML = formatter(data[i].time)
+                div.appendChild(name);
+                div.appendChild(para);
+                div.appendChild(time);
+                msglist.appendChild(div);
+            }
+        }
+
+    </script>
+</head>
+<body>
+<div align="center">你好,<span id="username">游客</span> <button id="ubtn"></button></div>
+<h1 align="center">搜索结果</h1>
+
+<div id="msgresultlist"></div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>留言板</title>
+	<link rel="stylesheet" href="./style.css">
+	<script type="text/javascript" src="./utils.js"></script>
+	<script type="text/javascript">
+		function listMessages(data) {
+			var msglist = document.getElementById('msglist');
+			for (var i in data) {
+				var div = document.createElement("div");
+				var name = document.createElement("a");
+				var time = document.createElement("span");
+				if (i % 2 == 0) {
+					div.className = "container";
+					name.className = "right";
+					time.className = "time-left";
+				} else {
+					div.className = "container darker";
+					time.className = "time-right";
+				}
+				var para = document.createElement("p");
+				para.innerText = data[i].content;
+				name.innerHTML = data[i].name;
+				time.innerHTML = formatter(data[i].time)
+				div.appendChild(name);
+				div.appendChild(para);
+				div.appendChild(time);
+				msglist.appendChild(div);
+			}
+		}
+
+		function loadList() {
+			postData("./getmsg")
+					.then((data) => {
+						listMessages(data);
+					})
+		}
+
+		function loadPage() {
+			var name = getCookie("name");
+			var ubtn = document.getElementById("ubtn");
+			if (name != "") {
+				document.getElementById("username").innerHTML = name;
+				ubtn.innerHTML = "退出";
+				ubtn.onclick = function () {
+					location.href = './logout';
+				};
+			} else {
+				document.getElementById("username").innerHTML = "游客";
+				ubtn.innerHTML = "登录";
+				ubtn.onclick = function () {
+					location.href = './login.html';
+				};
+			}
+			loadList();
+		}
+
+		function submit() {
+			var name = getCookie("name");
+			if (name != "") {
+				postData("./postmsg", { content: document.getElementById('content').value })
+						.then((data) => {
+							if (data.posted == true) {
+								document.getElementById('content').value = '';
+								loadList();
+							}
+						});
+			} else {
+				alert("游客不能提交留言");
+			}
+		}
+
+		function setbg(color) {
+			document.getElementById('content').style.background = color;
+		}
+	</script>
+</head>
+<body onload="loadPage()">
+<div align="center">你好,<span id="username">游客</span> <button id="ubtn"></button></div>
+<h1 align="center">欢迎留言</h1>
+
+<form id="searchForm" onsubmit="search();">
+	<input type="text" id="keyword" name="keyword" placeholder="请输入搜索关键词">
+	<input type="submit" value="搜索">
+</form>
+
+<div class='main' id='main'>
+	<div class='msgeditor'>
+		<textarea id='content' onfocus="setbg('#e5fff3')" onblur="setbg('white')"></textarea>
+		<button class="publish" onclick="submit()">提交</button>
+	</div>
+	<div id='msglist'></div>
+	<div id='reload'><button style="width:100%;height:40px" onclick="">加载</button></div>
+</div>
+</body>
+</html>
